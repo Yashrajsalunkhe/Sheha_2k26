@@ -1,0 +1,7 @@
+./node_modeules
+/dist
+/build
+/.env
+/.env.local
+/.env.development
+/.env.production        
