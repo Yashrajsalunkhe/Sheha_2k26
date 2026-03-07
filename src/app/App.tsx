@@ -8,17 +8,18 @@ import {
   Flower2,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { EventsSection } from "./components/EventsSection";
 import { ScheduleSection } from "./components/ScheduleSection";
 import { SpeakersSection } from "./components/SpeakersSection";
 import { GallerySection } from "./components/GallerySection";
-import { RegistrationSection } from "./components/RegistrationSection";
 import { SponsorsSection } from "./components/SponsorsSection";
 import { Footer } from "./components/Footer";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -76,7 +77,7 @@ export default function App() {
               ),
             )}
             <button
-              onClick={() => scrollToSection("register")}
+              onClick={() => navigate("/registration")}
               className="px-6 py-2 rounded-full text-white font-semibold"
               style={{
                 background:
@@ -239,7 +240,7 @@ export default function App() {
           </div>
 
           <button
-            onClick={() => scrollToSection("register")}
+            onClick={() => navigate("/registration")}
             className="px-10 py-4 rounded-2xl text-white font-bold shadow-lg hover:scale-105 transition"
             style={{
               background:
@@ -257,7 +258,6 @@ export default function App() {
       <SpeakersSection />
       <GallerySection />
       <SponsorsSection />
-      <RegistrationSection />
       <Footer />
     </div>
   );
