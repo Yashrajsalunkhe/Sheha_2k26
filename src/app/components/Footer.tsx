@@ -99,6 +99,40 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Google Maps Embed */}
+        <div className="mb-8">
+          <h4
+            className="font-bold mb-4 text-lg text-center"
+            style={{ color: '#8B0000', fontFamily: 'Playfair Display, serif' }}
+          >
+            Find Us
+          </h4>
+          <div className="rounded-2xl overflow-hidden shadow-lg border-2" style={{ borderColor: '#D4AF37' }}>
+            <iframe
+              title="ADCET Ashta Location"
+              src="https://maps.google.com/maps?q=Annasaheb+Dange+College+of+Engineering+and+Technology+Ashta+Maharashtra&output=embed&z=15"
+              width="100%"
+              height="300"
+              style={{ border: 0, display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <div className="flex items-center justify-center gap-2 mt-3">
+            <MapPin className="w-4 h-4" style={{ color: '#FF9933' }} />
+            <a
+              href="https://maps.google.com/maps?q=Annasaheb+Dange+College+of+Engineering+and+Technology+Ashta+Maharashtra"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-medium hover:underline"
+              style={{ color: '#8B0000' }}
+            >
+              ADCET, Ashta — Open in Google Maps
+            </a>
+          </div>
+        </div>
+
         <div className="border-t-2 pt-8 text-center" style={{ borderColor: '#D4AF37' }}>
           <div className="flex items-center justify-center gap-2 mb-2">
             <Flower2 className="w-4 h-4" style={{ color: '#FF9933' }} />
