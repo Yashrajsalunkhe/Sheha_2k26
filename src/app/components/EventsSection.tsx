@@ -3,17 +3,10 @@ import { Music, Code, Shirt, Gamepad2, Drama, Flower2 } from 'lucide-react';
 const events = [
   {
     icon: Music,
-    title: 'Classical Dance',
-    description: 'Celebrate traditional Indian dance forms - Bharatanatyam, Kathak, Odissi, and more.',
+    title: 'Dance',
+    description: 'Experience the vibrant rhythms of traditional and contemporary dance forms.',
     borderColor: '#8B0000',
     bgColor: '#FFF8E7'
-  },
-  {
-    icon: Music,
-    title: 'Classical Music',
-    description: 'Mesmerizing performances of classical vocal and instrumental music traditions.',
-    borderColor: '#FF9933',
-    bgColor: 'white'
   },
   {
     icon: Shirt,
@@ -23,9 +16,17 @@ const events = [
     bgColor: '#FFF8E7'
   },
   {
+    icon: Music,
+    title: 'Singing & Instrumental',
+    description: 'Mesmerizing performances of classical vocal and instrumental music traditions.',
+    borderColor: '#FF9933',
+    bgColor: 'white'
+  },
+  
+  {
     icon: Code,
-    title: 'Coding Contest',
-    description: 'Test your programming skills in algorithm challenges and hackathons.',
+    title: 'Art Exhibition',
+    description: 'Experience a vibrant display of visual arts, including paintings, sculptures, and installations.',
     borderColor: '#D4AF37',
     bgColor: 'white'
   },
@@ -38,8 +39,8 @@ const events = [
   },
   {
     icon: Gamepad2,
-    title: 'Gaming Tournament',
-    description: 'Compete in popular esports titles and showcase your gaming prowess.',
+    title: 'Public Speaking',
+    description: 'Engage in thought-provoking discussions and eloquent speeches on cultural topics.',
     borderColor: '#FF9933',
     bgColor: 'white'
   }

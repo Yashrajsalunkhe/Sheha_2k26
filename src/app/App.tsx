@@ -14,6 +14,7 @@ import { ScheduleSection } from "./components/ScheduleSection";
 import { SpeakersSection } from "./components/SpeakersSection";
 import { GallerySection } from "./components/GallerySection";
 import { SponsorsSection } from "./components/SponsorsSection";
+import { GuestsSection } from "./components/GuestsSection";
 import { Footer } from "./components/Footer";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 
@@ -64,7 +65,7 @@ export default function App() {
           </div>
 
           <div className="hidden md:flex gap-8 font-medium">
-            {["home", "about", "events", "schedule"].map(
+            {["home", "about", "events", "schedule", "guests"].map(
               (item) => (
                 <button
                   key={item}
@@ -224,7 +225,7 @@ export default function App() {
             >
               <Calendar style={{ color: "#8B0000" }} />
               <div className="font-semibold mt-1">
-                March 20–22, 2026
+                March 27–28, 2026
               </div>
             </div>
 
@@ -255,9 +256,10 @@ export default function App() {
       {/* Remaining Sections */}
       <EventsSection />
       <ScheduleSection />
-      <SpeakersSection />
+      {/* <SpeakersSection /> */}
+      <GuestsSection />
       <GallerySection />
-      <SponsorsSection />
+      {/* <SponsorsSection /> */}
       <Footer />
     </div>
   );

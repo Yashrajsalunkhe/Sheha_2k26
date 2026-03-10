@@ -50,11 +50,11 @@ export function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3" style={{ color: '#666' }}>
                 <Mail className="w-5 h-5" style={{ color: '#FF9933' }} />
-                <span>sneha2k26@adcet.edu</span>
+                <span>asm_ele@adcet.in</span>
               </div>
               <div className="flex items-center gap-3" style={{ color: '#666' }}>
                 <Phone className="w-5 h-5" style={{ color: '#FF9933' }} />
-                <span>+91 98765 43210</span>
+                <span>+91 97300 70826</span>
               </div>
               <div className="flex items-center gap-3" style={{ color: '#666' }}>
                 <MapPin className="w-5 h-5" style={{ color: '#FF9933' }} />
