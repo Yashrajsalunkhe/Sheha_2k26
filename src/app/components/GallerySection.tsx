@@ -1,5 +1,6 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Flower2 } from 'lucide-react';
+import { Flower2, Images } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const galleryImages = [
   {
@@ -29,6 +30,7 @@ const galleryImages = [
 ];
 
 export function GallerySection() {
+  const navigate = useNavigate();
   return (
     <section id="gallery" className="py-24 px-6" style={{ backgroundColor: 'white' }}>
       <div className="max-w-7xl mx-auto">
@@ -84,6 +86,18 @@ export function GallerySection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* CTA */}
+        <div className="text-center mt-14">
+          <button
+            onClick={() => navigate('/gallery')}
+            className="inline-flex items-center gap-3 px-10 py-4 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
+            style={{ background: 'linear-gradient(to right, #8B0000, #FF9933)' }}
+          >
+            <Images className="w-5 h-5" />
+            View Full Gallery
+          </button>
         </div>
       </div>
     </section>

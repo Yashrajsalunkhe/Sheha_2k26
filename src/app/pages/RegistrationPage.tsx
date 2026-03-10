@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Send, Flower2, ArrowLeft, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -107,8 +107,23 @@ function StyledSelect({
   placeholder?: string;
   required?: boolean;
 }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  const selected = value || "";
+
   return (
-    <div>
+    <div ref={ref} className="relative">
       <label
         htmlFor={id}
         className="block font-bold mb-2"
@@ -116,23 +131,85 @@ function StyledSelect({
       >
         {label}
       </label>
+      {/* Hidden native select for form validation */}
       <select
         id={id}
-        value={value}
+        value={selected}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full px-5 py-3 rounded-2xl border-2 focus:outline-none transition-all appearance-none cursor-pointer"
-        style={inputStyle}
-        onFocus={(e) => (e.target.style.borderColor = "#FF9933")}
-        onBlur={(e) => (e.target.style.borderColor = "#D4AF37")}
+        tabIndex={-1}
+        aria-hidden="true"
+        className="absolute opacity-0 w-0 h-0 pointer-events-none"
       >
-        <option value="">{placeholder}</option>
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
+        <option value="" />
+        {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
+
+      {/* Custom trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="w-full px-5 py-3 rounded-2xl border-2 focus:outline-none transition-all text-left flex items-center justify-between cursor-pointer"
+        style={{
+          backgroundColor: "white",
+          borderColor: open ? "#FF9933" : "#D4AF37",
+          color: selected ? "#333" : "#999",
+        }}
+      >
+        <span>{selected || placeholder}</span>
+        <svg
+          className="w-4 h-4 flex-shrink-0 transition-transform duration-200"
+          style={{
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            color: "#D4AF37",
+          }}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {/* Dropdown list */}
+      {open && (
+        <div
+          className="absolute z-50 w-full mt-1 rounded-2xl overflow-hidden shadow-xl border-2"
+          style={{ backgroundColor: "white", borderColor: "#D4AF37" }}
+        >
+          {/* Placeholder option */}
+          <div
+            className="px-5 py-3 cursor-pointer text-sm transition-colors"
+            style={{ color: "#999", borderBottom: "1px solid #f0e8cc" }}
+            onClick={() => { onChange(""); setOpen(false); }}
+          >
+            {placeholder}
+          </div>
+          {options.map((o) => (
+            <div
+              key={o}
+              onClick={() => { onChange(o); setOpen(false); }}
+              className="px-5 py-3 cursor-pointer text-sm font-medium transition-colors"
+              style={{
+                backgroundColor: selected === o ? "#FFF3E0" : "white",
+                color: selected === o ? "#8B0000" : "#333",
+                borderBottom: "1px solid #f0e8cc",
+              }}
+              onMouseEnter={(e) => {
+                if (selected !== o) (e.currentTarget as HTMLDivElement).style.backgroundColor = "#FFF8E7";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.backgroundColor = selected === o ? "#FFF3E0" : "white";
+              }}
+            >
+              {selected === o && (
+                <span className="mr-2" style={{ color: "#FF9933" }}>✓</span>
+              )}
+              {o}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -161,6 +238,7 @@ export default function RegistrationPage() {
   const [teamLeaderName, setTeamLeaderName] = useState("");
   const [teamLeaderContact, setTeamLeaderContact] = useState("");
   const [songTheme, setSongTheme] = useState("");
+  const [dramaOther, setDramaOther] = useState("");
 
   // ---- Section 4: Singing ----
   const [singParticipationType, setSingParticipationType] = useState("");
@@ -168,14 +246,27 @@ export default function RegistrationPage() {
   const [singerArtistName, setSingerArtistName] = useState("");
   const [musicTrackRequired, setMusicTrackRequired] = useState("");
 
+  // ---- Section 5: Public Speaking ----
+  const [topicName, setTopicName] = useState("");
+
+  // ---- Section 6: Art Exhibition ----
+  const [artType, setArtType] = useState("");
+  const [artTypeOther, setArtTypeOther] = useState("");
+
   // ---- Section 7: Funny Games ----
   const [funnyGamesType, setFunnyGamesType] = useState("");
+  const [gameName, setGameName] = useState("");
+  const [funnyNumParticipants, setFunnyNumParticipants] = useState("");
+  const [funnyTeamName, setFunnyTeamName] = useState("");
+  const [funnySpecialReqs, setFunnySpecialReqs] = useState<string[]>([]);
+  const [funnySpecialReqsOther, setFunnySpecialReqsOther] = useState("");
 
   // ---- Section 8: Food Stall ----
   const [stallName, setStallName] = useState("");
   const [foodItems, setFoodItems] = useState("");
   const [stallStudents, setStallStudents] = useState("");
-  const [specialRequirements, setSpecialRequirements] = useState("");
+  const [specialRequirements, setSpecialRequirements] = useState<string[]>([]);
+  const [specialRequirementsOther, setSpecialRequirementsOther] = useState("");
 
   // ---- Declaration ----
   const [agreed, setAgreed] = useState(false);
@@ -185,10 +276,28 @@ export default function RegistrationPage() {
   const [submitted, setSubmitted] = useState(false);
 
   const isDanceOrFashion =
-    selectedEvent === "Dance" || selectedEvent === "Fashion Show";
+    selectedEvent === "Dance" ||
+    selectedEvent === "Fashion Show" ||
+    selectedEvent === "Drama / Skit";
   const isSinging = selectedEvent === "Singing";
+  const isPublicSpeaking = selectedEvent === "Public Speaking";
+  const isArtExhibition = selectedEvent === "Art Exhibition";
   const isFunnyGames = selectedEvent === "Funny Games";
   const isFoodStall = selectedEvent === "Food Stall";
+
+  const toggleSpecialReq = (val: string) => {
+    setSpecialRequirements((prev) =>
+      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]
+    );
+    if (val === "Other") setSpecialRequirementsOther("");
+  };
+
+  const toggleFunnyReq = (val: string) => {
+    setFunnySpecialReqs((prev) =>
+      prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]
+    );
+    if (val === "Other") setFunnySpecialReqsOther("");
+  };
 
   /* ---- Submit handler ---- */
   const handleSubmit = async (e: React.FormEvent) => {
@@ -221,14 +330,24 @@ export default function RegistrationPage() {
       teamLeaderName: isDanceOrFashion ? teamLeaderName : "",
       teamLeaderContact: isDanceOrFashion ? teamLeaderContact : "",
       songTheme: isDanceOrFashion ? songTheme : "",
+      dramaOther: selectedEvent === "Drama / Skit" && songTheme === "Other" ? dramaOther : "",
       songName: isSinging ? songName : "",
       singerArtistName: isSinging ? singerArtistName : "",
       musicTrackRequired: isSinging ? musicTrackRequired : "",
       funnyGamesType: isFunnyGames ? funnyGamesType : "",
+      gameName: isFunnyGames ? gameName : "",
+      funnyTeamName: isFunnyGames && funnyGamesType === "Team" ? funnyTeamName : "",
+      funnyNumParticipants: isFunnyGames ? funnyNumParticipants : "",
+      funnySpecialReqs: isFunnyGames ? funnySpecialReqs.join(", ") : "",
+      funnySpecialReqsOther: isFunnyGames && funnySpecialReqs.includes("Other") ? funnySpecialReqsOther : "",
+      topicName: isPublicSpeaking ? topicName : "",
+      artType: isArtExhibition ? artType : "",
+      artTypeOther: isArtExhibition && artType === "Other" ? artTypeOther : "",
       stallName: isFoodStall ? stallName : "",
       foodItems: isFoodStall ? foodItems : "",
       stallStudents: isFoodStall ? stallStudents : "",
-      specialRequirements: isFoodStall ? specialRequirements : "",
+      specialRequirements: isFoodStall ? specialRequirements.join(", ") : "",
+      specialRequirementsOther: isFoodStall && specialRequirements.includes("Other") ? specialRequirementsOther : "",
     };
 
     try {
@@ -370,15 +489,26 @@ export default function RegistrationPage() {
                   setTeamLeaderName("");
                   setTeamLeaderContact("");
                   setSongTheme("");
+                  setDramaOther("");
                   setSingParticipationType("");
+                  setTopicName("");
+                  setArtType("");
+                  setArtTypeOther("");
+                  setSpecialRequirements([]);
+                  setSpecialRequirementsOther("");
                   setSongName("");
                   setSingerArtistName("");
                   setMusicTrackRequired("");
                   setFunnyGamesType("");
+                  setGameName("");
+                  setFunnyNumParticipants("");
+                  setFunnyTeamName("");
+                  setFunnySpecialReqs([]);
+                  setFunnySpecialReqsOther("");
                   setStallName("");
                   setFoodItems("");
                   setStallStudents("");
-                  setSpecialRequirements("");
+                  setSpecialRequirements([]);
                 }}
                 options={EVENTS}
                 placeholder="Choose an event..."
@@ -395,7 +525,14 @@ export default function RegistrationPage() {
                   {selectedEvent} Details
                 </legend>
 
-                <StyledSelect label="Participation Type" id="participationType" value={participationType} onChange={setParticipationType} options={["Solo", "Group"]} placeholder="Solo or Group?" />
+                <StyledSelect
+                  label="Participation Type"
+                  id="participationType"
+                  value={participationType}
+                  onChange={setParticipationType}
+                  options={["Solo", "Group"]}
+                  placeholder="Solo or Group?"
+                />
                 {participationType === "Group" && (
                   <>
                     <StyledInput label="Team Name" id="teamName" value={teamName} onChange={setTeamName} placeholder="Enter team name" />
@@ -404,7 +541,29 @@ export default function RegistrationPage() {
                     <StyledInput label="Team Leader Contact" id="teamLeaderContact" type="tel" value={teamLeaderContact} onChange={setTeamLeaderContact} placeholder="Leader's mobile number" />
                   </>
                 )}
-                <StyledInput label="Song / Theme of Performance" id="songTheme" value={songTheme} onChange={setSongTheme} placeholder="e.g. Bollywood medley" />
+                {selectedEvent === "Drama / Skit" ? (
+                  <>
+                    <StyledSelect
+                      label="Type of Drama"
+                      id="songTheme"
+                      value={songTheme}
+                      onChange={(v) => { setSongTheme(v); if (v !== "Other") setDramaOther(""); }}
+                      options={["Comedy", "Tragedy", "Social Awareness", "Historical", "Mythological", "Horror / Thriller", "Other"]}
+                      placeholder="Select drama type..."
+                    />
+                    {songTheme === "Other" && (
+                      <StyledInput
+                        label="Please specify drama type"
+                        id="dramaOther"
+                        value={dramaOther}
+                        onChange={setDramaOther}
+                        placeholder="Describe the type of drama..."
+                      />
+                    )}
+                  </>
+                ) : (
+                  <StyledInput label="Song / Theme of Performance" id="songTheme" value={songTheme} onChange={setSongTheme} placeholder="e.g. Bollywood medley" />
+                )}
               </fieldset>
             )}
 
@@ -425,6 +584,54 @@ export default function RegistrationPage() {
               </fieldset>
             )}
 
+            {/* ============ SECTION 5 – Public Speaking ============ */}
+            {isPublicSpeaking && (
+              <fieldset className="space-y-5 animate-in fade-in">
+                <legend
+                  className="text-2xl font-bold mb-2"
+                  style={{ fontFamily: "Playfair Display, serif", color: "#D4AF37" }}
+                >
+                  Public Speaking Details
+                </legend>
+                <StyledInput
+                  label="Topic Name"
+                  id="topicName"
+                  value={topicName}
+                  onChange={setTopicName}
+                  placeholder="e.g. Climate Change and Youth"
+                />
+              </fieldset>
+            )}
+
+            {/* ============ SECTION 6 – Art Exhibition ============ */}
+            {isArtExhibition && (
+              <fieldset className="space-y-5 animate-in fade-in">
+                <legend
+                  className="text-2xl font-bold mb-2"
+                  style={{ fontFamily: "Playfair Display, serif", color: "#D4AF37" }}
+                >
+                  Art Exhibition Details
+                </legend>
+                <StyledSelect
+                  label="Type of Art"
+                  id="artType"
+                  value={artType}
+                  onChange={(v) => { setArtType(v); if (v !== "Other") setArtTypeOther(""); }}
+                  options={["Painting", "Sketch / Drawing", "Photography", "Sculpture", "Digital Art", "Rangoli", "Craft / Handmade", "Other"]}
+                  placeholder="Select art type..."
+                />
+                {artType === "Other" && (
+                  <StyledInput
+                    label="Please specify art type"
+                    id="artTypeOther"
+                    value={artTypeOther}
+                    onChange={setArtTypeOther}
+                    placeholder="Describe your art type..."
+                  />
+                )}
+              </fieldset>
+            )}
+
             {/* ============ SECTION 7 – Funny Games ============ */}
             {isFunnyGames && (
               <fieldset className="space-y-5 animate-in fade-in">
@@ -435,7 +642,53 @@ export default function RegistrationPage() {
                   Funny Games Details
                 </legend>
 
-                <StyledSelect label="Type of Participation" id="funnyGamesType" value={funnyGamesType} onChange={setFunnyGamesType} options={["Individual", "Team"]} placeholder="Individual or Team?" />
+                <StyledInput label="Game / Activity Name" id="gameName" value={gameName} onChange={setGameName} placeholder="e.g. Musical Chairs, Tug of War" />
+                <StyledSelect label="Type of Participation" id="funnyGamesType" value={funnyGamesType} onChange={(v) => { setFunnyGamesType(v); setFunnyTeamName(""); }} options={["Individual", "Team"]} placeholder="Individual or Team?" />
+                {funnyGamesType === "Team" && (
+                  <StyledInput label="Team Name" id="funnyTeamName" value={funnyTeamName} onChange={setFunnyTeamName} placeholder="Enter team name" />
+                )}
+                <StyledInput label="Number of Participants" id="funnyNumParticipants" type="number" value={funnyNumParticipants} onChange={setFunnyNumParticipants} placeholder="e.g. 4" />
+
+                {/* Special Requirements */}
+                <div>
+                  <label
+                    className="block font-bold mb-3"
+                    style={{ color: "#8B0000", fontFamily: "Playfair Display, serif" }}
+                  >
+                    Special Requirements
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {["Open Space", "Sound System", "Props / Equipment", "Seating Area", "Water Supply", "Other"].map((req) => (
+                      <label
+                        key={req}
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl border-2 cursor-pointer transition-all"
+                        style={{
+                          borderColor: funnySpecialReqs.includes(req) ? "#FF9933" : "#D4AF37",
+                          backgroundColor: funnySpecialReqs.includes(req) ? "#FFF3E0" : "white",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={funnySpecialReqs.includes(req)}
+                          onChange={() => toggleFunnyReq(req)}
+                          className="w-4 h-4 accent-[#8B0000] cursor-pointer"
+                        />
+                        <span className="text-sm font-medium" style={{ color: "#333" }}>{req}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {funnySpecialReqs.includes("Other") && (
+                    <div className="mt-3">
+                      <StyledInput
+                        label="Please specify requirement"
+                        id="funnySpecialReqsOther"
+                        value={funnySpecialReqsOther}
+                        onChange={setFunnySpecialReqsOther}
+                        placeholder="Describe your special requirement..."
+                      />
+                    </div>
+                  )}
+                </div>
               </fieldset>
             )}
 
@@ -452,7 +705,47 @@ export default function RegistrationPage() {
                 <StyledInput label="Stall Name" id="stallName" value={stallName} onChange={setStallName} placeholder="Name of your stall" />
                 <StyledInput label="Food Items to be Sold" id="foodItems" value={foodItems} onChange={setFoodItems} placeholder="e.g. Samosa, Chai, Vada pav" />
                 <StyledInput label="Number of Students Managing Stall" id="stallStudents" type="number" value={stallStudents} onChange={setStallStudents} placeholder="e.g. 4" />
-                <StyledSelect label="Special Requirements" id="specialRequirements" value={specialRequirements} onChange={setSpecialRequirements} options={["Table", "Electricity", "Stall Space", "Other"]} placeholder="Select if any..." required={false} />
+
+                {/* Multi-select Special Requirements */}
+                <div>
+                  <label
+                    className="block font-bold mb-3"
+                    style={{ color: "#8B0000", fontFamily: "Playfair Display, serif" }}
+                  >
+                    Special Requirements
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {["Table", "Electricity", "Stall Space", "Extension Board", "Water Supply", "Other"].map((req) => (
+                      <label
+                        key={req}
+                        className="flex items-center gap-3 px-4 py-3 rounded-2xl border-2 cursor-pointer transition-all"
+                        style={{
+                          borderColor: specialRequirements.includes(req) ? "#FF9933" : "#D4AF37",
+                          backgroundColor: specialRequirements.includes(req) ? "#FFF3E0" : "white",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={specialRequirements.includes(req)}
+                          onChange={() => toggleSpecialReq(req)}
+                          className="w-4 h-4 accent-[#8B0000] cursor-pointer"
+                        />
+                        <span className="text-sm font-medium" style={{ color: "#333" }}>{req}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {specialRequirements.includes("Other") && (
+                    <div className="mt-3">
+                      <StyledInput
+                        label="Please specify requirement"
+                        id="specialRequirementsOther"
+                        value={specialRequirementsOther}
+                        onChange={setSpecialRequirementsOther}
+                        placeholder="Describe your special requirement..."
+                      />
+                    </div>
+                  )}
+                </div>
               </fieldset>
             )}
 

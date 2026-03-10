@@ -64,7 +64,7 @@ export default function App() {
             </h1>
           </div>
 
-          <div className="hidden md:flex gap-8 font-medium">
+          <div className="hidden md:flex gap-8 font-medium items-center">
             {["home", "about", "events", "schedule", "guests"].map(
               (item) => (
                 <button
@@ -77,6 +77,13 @@ export default function App() {
                 </button>
               ),
             )}
+            <button
+              onClick={() => navigate("/gallery")}
+              style={{ color: "#8B0000" }}
+              className="hover:opacity-70"
+            >
+              Gallery
+            </button>
             <button
               onClick={() => navigate("/registration")}
               className="px-6 py-2 rounded-full text-white font-semibold"

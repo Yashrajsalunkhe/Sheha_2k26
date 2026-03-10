@@ -214,7 +214,7 @@ export function GuestsSection() {
                   <h3 className="text-xl font-bold mb-3 text-center" style={{ color: '#111' }}>
                     {member.role}
                   </h3>
-
+Highlights & Memories
                   {/* Description */}
                   <p className="text-sm text-center leading-relaxed mb-5" style={{ color: '#555' }}>
                     {member.description}
