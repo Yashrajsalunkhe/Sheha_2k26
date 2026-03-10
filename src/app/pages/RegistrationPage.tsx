@@ -37,7 +37,7 @@ const EVENTS = [
 
 // Google Apps Script Web App URL — replace with your deployed URL
 const GOOGLE_SHEET_URL =
-  "https://script.google.com/macros/s/AKfycbxu28p6veVDFfCeNGkhQKlyZZoajT9GdpwMuDuoGlAim8CkrI7oSwat2CV7I90Z6DP2/exec";
+  "https://script.google.com/macros/s/AKfycbxJGPEs_SPKWVk0G_TTZ77kKuYWGxbxVA9erFxdLUWn2pdH-ijVA66MCfY18ERw522g/exec";
 
 /* ------------------------------------------------------------------ */
 /*  Reusable styled input / select / textarea                         */

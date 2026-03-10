@@ -1,5 +1,5 @@
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { Flower2, ExternalLink, Users } from 'lucide-react';
+import { Flower2, Users } from 'lucide-react';
 
 const guests = [
   {
@@ -183,53 +183,49 @@ export function GuestsSection() {
             {leadershipTeam.map((member, index) => (
               <div
                 key={index}
-                className="group flex flex-col bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 w-72 overflow-hidden"
-                style={{ border: '1px solid #e5e7eb' }}
+                className="group flex flex-col rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white w-72"
+                style={{ border: '3px solid #D4AF37' }}
               >
-                {/* Colored top border */}
-                <div className="h-1.5 w-full" style={{ backgroundColor: member.borderColor }} />
-
                 {/* Photo */}
-                <div className="flex flex-col items-center pt-8 pb-4 px-6">
+                <div className="relative h-64 overflow-hidden">
+                  <ImageWithFallback
+                    src={member.image}
+                    alt={member.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  {/* Gradient overlay */}
                   <div
-                    className="w-24 h-24 rounded-full overflow-hidden border-4 shadow-md mb-4"
-                    style={{ borderColor: member.borderColor }}
-                  >
-                    <ImageWithFallback
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'linear-gradient(to top, rgba(139,0,0,0.5) 0%, transparent 60%)',
+                    }}
+                  />
+                  {/* Decorative flower */}
+                  <div className="absolute top-3 right-3">
+                    <Flower2 className="w-6 h-6 text-white opacity-80" />
                   </div>
+                  {/* Gold bottom bar */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-1"
+                    style={{ background: 'linear-gradient(to right, #D4AF37, #FF9933, #D4AF37)' }}
+                  />
+                </div>
 
-                  {/* Name badge */}
-                  <span
-                    className="text-sm font-bold text-white px-4 py-1 rounded-full mb-4"
-                    style={{ backgroundColor: member.badgeColor }}
+                {/* Info */}
+                <div className="flex flex-col flex-1 p-6">
+                  <h3
+                    className="text-xl font-bold mb-1"
+                    style={{ fontFamily: 'Playfair Display, serif', color: '#8B0000' }}
                   >
                     {member.name}
-                  </span>
-
-                  {/* Role */}
-                  <h3 className="text-xl font-bold mb-3 text-center" style={{ color: '#111' }}>
-                    {member.role}
                   </h3>
-Highlights & Memories
-                  {/* Description */}
-                  <p className="text-sm text-center leading-relaxed mb-5" style={{ color: '#555' }}>
-                    {member.description}
-                  </p>
-
-                  {/* Read More */}
-                  {/* <a
-                    href={member.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-semibold mb-4 hover:opacity-75 transition-opacity"
-                    style={{ color: member.badgeColor }}
+                  <p
+                    className="text-sm font-semibold"
+                    style={{ color: '#FF9933' }}
                   >
-                    Read More <ExternalLink className="w-3.5 h-3.5" />
-                  </a> */}
+                    {member.role}
+                  </p>
                 </div>
               </div>
             ))}
