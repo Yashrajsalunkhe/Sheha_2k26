@@ -146,6 +146,7 @@ export default function App() {
             />
           </div>
 
+                {/* ...existing code... */}
           <div
             className="w-52 h-64 rounded-[30px] overflow-hidden shadow-xl border-4 ml-16"
             style={{ borderColor: "#FF9933" }}
@@ -230,8 +231,9 @@ export default function App() {
             </div>
 
             <div
-              className="px-6 py-4 rounded-2xl shadow-lg border-2 bg-white"
+              className="px-6 py-4 rounded-2xl shadow-lg border-2 bg-white cursor-pointer"
               style={{ borderColor: "#FF9933" }}
+              onClick={() => window.open("https://maps.app.goo.gl/Vr8wMWTpTgTYb3D2A", "_blank")}
             >
               <MapPin style={{ color: "#FF9933" }} />
               <div className="font-semibold mt-1">
