@@ -617,7 +617,7 @@ export default function RegistrationPage() {
                   id="artType"
                   value={artType}
                   onChange={(v) => { setArtType(v); if (v !== "Other") setArtTypeOther(""); }}
-                  options={["Painting", "Sketch / Drawing", "Photography", "Sculpture", "Digital Art", "Rangoli", "Craft / Handmade", "Other"]}
+                  options={["⁠Mehndi", "⁠Rangoli", "⁠Art Showcase", "⁠Painting", "⁠Photography", "⁠DIY Craft", "Cookery","Flower Decoration","Salad Decoration","⁠Hair makeup","Best Out of Waste","⁠Types of Collection", "Other"]}
                   placeholder="Select art type..."
                 />
                 {artType === "Other" && (
