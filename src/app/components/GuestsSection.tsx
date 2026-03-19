@@ -7,6 +7,11 @@ const guests = [
     dedication: 'Member of Parliament, Lok Sabha',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOkUWv8PrJ2ujJNIIYjV_Bsb-sxLL_sZQ1Yw&s',
   },
+  {
+    name: 'Saurabh Bhosale',
+    dedication: 'Young and Dynamic Entrepreneur who believes in Learning From Each Other and solving genuine Problems in the agricultural sector',
+    image: 'https://www.campustimespune.com/wp-content/uploads/2026/03/VISHWAPRENEUR-VIT-2026-saurabh-bhosale-comedianjpeg-576x1024.jpeg',
+  },
 ];
 
 const leadershipTeam = [
