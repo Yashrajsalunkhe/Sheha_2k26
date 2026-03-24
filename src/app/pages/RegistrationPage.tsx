@@ -441,6 +441,24 @@ export default function RegistrationPage() {
           </p>
         </div>
 
+        {/* Registration Closed Notice */}
+        <div className="mb-8 rounded-2xl p-6 border-2" style={{
+          backgroundColor: '#FFE5E5',
+          borderColor: '#8B0000'
+        }}>
+          <div className="flex items-start gap-4">
+            <div className="mt-1 text-2xl" style={{ color: '#8B0000' }}>⚠️</div>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#8B0000' }}>
+                Registration Closed
+              </h3>
+              <p style={{ color: '#555' }}>
+                We regret to inform you that registration for Sneha 2K26 is now closed. Thank you for your interest!
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Form card */}
         <div
           className="rounded-3xl p-8 md:p-10 shadow-2xl"

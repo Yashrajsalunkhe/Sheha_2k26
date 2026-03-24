@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send, Flower2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 export function RegistrationSection() {
   const [formData, setFormData] = useState({
@@ -10,16 +11,32 @@ export function RegistrationSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Registration submitted:', formData);
-    alert('Registration successful! We will contact you soon.');
-    setFormData({ name: '', email: '', event: '' });
+    toast.error('Registration is closed');
   };
 
   return (
     <section id="register" className="py-24 px-6" style={{ backgroundColor: 'white' }}>
       <div className="max-w-4xl mx-auto">
+        {/* Registration Closed Notice */}
+        <div className="mb-8 rounded-2xl p-6 border-2" style={{
+          backgroundColor: '#FFE5E5',
+          borderColor: '#8B0000'
+        }}>
+          <div className="flex items-start gap-4">
+            <div className="mt-1 text-2xl" style={{ color: '#8B0000' }}>⚠️</div>
+            <div className="flex-1">
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#8B0000' }}>
+                Registration Closed
+              </h3>
+              <p style={{ color: '#555' }}>
+                We regret to inform you that registration for Sneha 2K26 is now closed. Thank you for your interest!
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Decorative Top Border - Indian Style */}
-        <div className="mb-16">
+        <div className="mb-16" style={{ display: 'none' }}>
           <svg className="w-full h-16" viewBox="0 0 800 60" preserveAspectRatio="xMidYMid meet">
             {/* Decorative pattern */}
             <path
@@ -38,7 +55,7 @@ export function RegistrationSection() {
           </svg>
         </div>
 
-        <div className="text-center mb-16">
+        <div className="text-center mb-16" style={{ display: 'none' }}>
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="w-16 h-1" style={{ background: "linear-gradient(to right, transparent, #D4AF37)" }}></div>
             <Flower2 className="w-6 h-6" style={{ color: "#FF9933" }} />
@@ -58,7 +75,8 @@ export function RegistrationSection() {
 
         <div className="rounded-3xl p-10 shadow-2xl border-3" style={{
           background: 'linear-gradient(to bottom right, #FFF8E7, white)',
-          border: '3px solid #D4AF37'
+          border: '3px solid #D4AF37',
+          display: 'none'
         }}>
           {/* Decorative corners */}
           <div className="absolute top-8 right-8">
