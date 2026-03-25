@@ -24,16 +24,7 @@ const CLASSES = [
   "Final Year B.Tech",
 ];
 
-const EVENTS = [
-  "Dance",
-  "Fashion Show",
-  "Singing",
-  "Art Exhibition",
-  "Public Speaking",
-  "Drama / Skit",
-  "Funny Games",
-  "Food Stall",
-];
+const EVENTS = ["Funny Games"];
 
 // Google Apps Script Web App URL — replace with your deployed URL
 const GOOGLE_SHEET_URL =
@@ -229,7 +220,7 @@ export default function RegistrationPage() {
   const [email, setEmail] = useState("");
 
   // ---- Section 2 state ----
-  const [selectedEvent, setSelectedEvent] = useState("");
+  const [selectedEvent, setSelectedEvent] = useState<string>("Funny Games");
 
   // ---- Section 3: Dance / Fashion Show ----
   const [participationType, setParticipationType] = useState("");
@@ -302,6 +293,10 @@ export default function RegistrationPage() {
   /* ---- Submit handler ---- */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (selectedEvent !== "Funny Games") {
+      alert("Registration is active only for Funny Games event.");
+      return;
+    }
     if (!agreed) {
       alert("Please accept the declaration before submitting.");
       return;
@@ -330,7 +325,7 @@ export default function RegistrationPage() {
       teamLeaderName: isDanceOrFashion ? teamLeaderName : "",
       teamLeaderContact: isDanceOrFashion ? teamLeaderContact : "",
       songTheme: isDanceOrFashion ? songTheme : "",
-      dramaOther: selectedEvent === "Drama / Skit" && songTheme === "Other" ? dramaOther : "",
+      dramaOther: "",
       songName: isSinging ? songName : "",
       singerArtistName: isSinging ? singerArtistName : "",
       musicTrackRequired: isSinging ? musicTrackRequired : "",
@@ -441,7 +436,7 @@ export default function RegistrationPage() {
           </p>
         </div>
 
-        {/* Registration Closed Notice */}
+        {/* Registration Status Notice */}
         <div className="mb-8 rounded-2xl p-6 border-2" style={{
           backgroundColor: '#FFE5E5',
           borderColor: '#8B0000'
@@ -450,10 +445,10 @@ export default function RegistrationPage() {
             <div className="mt-1 text-2xl" style={{ color: '#8B0000' }}>⚠️</div>
             <div className="flex-1">
               <h3 className="font-bold text-lg mb-2" style={{ color: '#8B0000' }}>
-                Registration Closed
+                Registration Update
               </h3>
               <p style={{ color: '#555' }}>
-                We regret to inform you that registration for Sneha 2K26 is now closed. Thank you for your interest!
+                Funny Games registrations are open. Registrations for all other events are currently closed.
               </p>
             </div>
           </div>
